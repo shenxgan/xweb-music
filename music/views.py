@@ -12,7 +12,7 @@ from rest_framework.generics import GenericAPIView
 # from rest_framework.schemas import AutoSchema
 # from rest_framework.schemas import ManualSchema
 
-from .serializers import MySerializer
+from .serializers import MusicSerializer
 from utils.kugou import search
 
 
@@ -25,7 +25,7 @@ def index(request):
 
 class Music(GenericAPIView):
     queryset = []
-    serializer_class = MySerializer
+    serializer_class = MusicSerializer
 
     def dispatch(self, request, *args, **kwargs):
         mp3_path = os.path.join(settings.STATIC_ROOT, 'mp3')
@@ -39,7 +39,7 @@ class Music(GenericAPIView):
 
     def post(self, request, format=None):
         """查找/下载歌曲"""
-        serializer = MySerializer(data=self.request.data)
+        serializer = MusicSerializer(data=self.request.data)
 
         if serializer.is_valid():
             name = serializer.validated_data['name']
